@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, } from 'react-n
 import Button from './../library/components/Button';
 import Camera from "./../library/components/Camera";
 import CameraRoll from './../library/components/CameraRoll';
+import axios from "axios";
 
 const Capture = (props) => {
     const [photo, updatePhoto] = useState('')
@@ -14,28 +15,33 @@ const Capture = (props) => {
         console.log(photoString)
         const ipAddress = props.navigation.getParam('ipAddress')
         const data = {
-            image: photoString,
+            Img: photoString,
         }
-        // return
-        fetch(
-            `http://${ipAddress}:25052/notdog`, {
-                method: 'POST',
-                mode: 'cors', // no-cors, cors, *same-origin
-                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-                credentials: 'same-origin', // include, *same-origin, omit
-                headers: {
-                    'Content-Type': 'application/json',
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                redirect: 'follow', // manual, *follow, error
-                referrer: 'no-referrer', // no-referrer, *client
-                body: JSON.stringify(data), // body data type must match "Content-Type" header
-            })
+
+        return new Promise(async (resolve, reject) => {
+            try {
+                const response = await axios.post(`http://${ipAddress}:25052/notdog`, data)
+                resolve(response.data)
+            }
+            catch (err) {
+                reject(err)
+            }
+        })
     }
 
-    const next = () => {
-        sendPhoto(photo)
-        props.navigation.navigate('Results')
+    // const sending = new Promise(async (resolve, reject) => {
+    //     sendPhoto()
+    // });
+
+    const next = async () => {
+        try {
+            const res = await sendPhoto(photo)
+            console.log("This is Response", res)
+            props.navigation.navigate('Results', { response: res, imageBase64: photo })
+        }
+        catch (err) {
+            console.warn('there was an issue with the image', err)
+        }
     }
 
     const back = () => {
@@ -51,6 +57,8 @@ const Capture = (props) => {
             </View>
             <View style={styles.btnContainer}>
                 <Button onPress={next} title='Test' />
+                {/* {photo && <Button onPress={next} title='Test Dog' />}
+                {photo && <Button onPress={next} title='Test Not Dog' />} */}
                 <Button onPress={back} title='Back' />
             </View>
         </SafeAreaView>
