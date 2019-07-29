@@ -31,20 +31,20 @@ target 'dogNotDog' do
   # pod 'react-native-camera', path: '../node_modules/react-native-camera'
 
 
-  target 'dogNotDogTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  # target 'dogNotDogTests' do
+  #   inherit! :search_paths
+  #   # Pods for testing
+  # end
 
   use_native_modules!
 end
 
-target 'dogNotDog-tvOS' do
-  # Pods for dogNotDog-tvOS
+# target 'dogNotDog-tvOS' do
+#   # Pods for dogNotDog-tvOS
 
-  target 'dogNotDog-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+#   target 'dogNotDog-tvOSTests' do
+#     inherit! :search_paths
+#     # Pods for testing
+#   end
 
-end
+# end
