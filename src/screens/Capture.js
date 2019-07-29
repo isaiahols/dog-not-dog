@@ -13,7 +13,10 @@ const Capture = (props) => {
     const sendPhoto = (photoString) => {
         console.log(photoString)
         const ipAddress = props.navigation.getParam('ipAddress')
-        return
+        const data = {
+            image: photoString,
+        }
+        // return
         fetch(
             `http://${ipAddress}:25052/notdog`, {
                 method: 'POST',
