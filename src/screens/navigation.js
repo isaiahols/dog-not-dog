@@ -11,7 +11,11 @@ const AppNavigator = createStackNavigator(
         Capture,
     },
     {
-        initialRouteName: "Welcome"
+        initialRouteName: "Welcome",
+        headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false,
+        }
     }
 );
 export default createAppContainer(AppNavigator)

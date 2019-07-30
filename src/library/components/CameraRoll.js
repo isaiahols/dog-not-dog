@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import CameraRoll from "@react-native-community/cameraroll";
-// import ImgToBase64 from 'react-native-image-base64';
+
+import { toDataURL } from './../logic/imageLogic';
+
 
 const CameraRollContainer = (props) => {
     const [cameraRollImages, loadImages] = useState([])
@@ -30,18 +32,11 @@ const CameraRollContainer = (props) => {
     //         .catch(err => doSomethingWith(err));
     // }
     // console.log(cameraRollImages)
-    const displayCameraRoll = cameraRollImages.map((image, i) => {
-        // const base64Image = convertToBase64(image.node.uri)
-        return (
-            <TouchableOpacity
-                key={i}
-                // onPress={props.updatePhoto(base64Image)} 
-                style={{ height: '30%', width: '30%' }}
-            >
-                <Image source={{ uri: image.node.image.uri }} style={{ flex: 1 }} />
-            </TouchableOpacity>
-        )
-    })
+
+
+    const captureImage = (uri) => {
+
+    }
 
     _imageDisplay = ({ item }) => {
         console.log(item.node.image.uri)
@@ -58,7 +53,6 @@ const CameraRollContainer = (props) => {
     console.log(cameraRollImages)
     return (
         <View style={styles.MainContainer} >
-            <Text>This is the Camera Roll</Text>
             <FlatList
                 data={cameraRollImages}
                 renderItem={_imageDisplay}
@@ -91,6 +85,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightblue',
     },
     imageContainer: {
+        flex: 1,
         flexDirection: 'column',
         margin: 1,
     },
@@ -103,5 +98,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 100,
+        // width: 100,
     },
 })

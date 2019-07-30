@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { Component, Fragment } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 class Camera extends Component {
@@ -8,35 +8,47 @@ class Camera extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <RNCamera
-                    ref={ref => {
-                        this.camera = ref;
-                    }}
-                    style={styles.preview}
-                    type={RNCamera.Constants.Type.back}
-                    flashMode={RNCamera.Constants.FlashMode.on}
-                    captureAudio={false}
-                    androidCameraPermissionOptions={{
-                        title: 'Permission to use camera',
-                        message: 'We need your permission to use your camera',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
-                    }}
-                    androidRecordAudioPermissionOptions={{
-                        title: 'Permission to use audio recording',
-                        message: 'We need your permission to use your audio',
-                        buttonPositive: 'Ok',
-                        buttonNegative: 'Cancel',
-                    }}
-                    onGoogleVisionBarcodesDetected={({ barcodes }) => {
-                        console.log(barcodes);
-                    }}
-                />
-                <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
-                        <Text style={{ fontSize: 14 }}> SNAP </Text>
-                    </TouchableOpacity>
-                </View>
+                {!this.props.photo ? (
+                    <Fragment>
+
+                        <RNCamera
+                            ref={ref => {
+                                this.camera = ref;
+                            }}
+                            style={styles.preview}
+                            type={RNCamera.Constants.Type.back}
+                            flashMode={RNCamera.Constants.FlashMode.on}
+                            captureAudio={false}
+                            androidCameraPermissionOptions={{
+                                title: 'Permission to use camera',
+                                message: 'We need your permission to use your camera',
+                                buttonPositive: 'Ok',
+                                buttonNegative: 'Cancel',
+                            }}
+                            androidRecordAudioPermissionOptions={{
+                                title: 'Permission to use audio recording',
+                                message: 'We need your permission to use your audio',
+                                buttonPositive: 'Ok',
+                                buttonNegative: 'Cancel',
+                            }}
+                            onGoogleVisionBarcodesDetected={({ barcodes }) => {
+                                console.log(barcodes);
+                            }}
+                        />
+                        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={this.takePicture.bind(this)} style={styles.capture}>
+                                <Text style={{ fontSize: 14 }}> SNAP </Text>
+                            </TouchableOpacity>
+                        </View>
+                    </Fragment>
+                ) : (
+                        <View>
+                            <Image
+                                source={{ uri: this.props.photo }}
+                                style={styles.imageThumbnail}
+                            />
+                        </View>
+                    )}
             </View>
         );
     }
@@ -45,7 +57,8 @@ class Camera extends Component {
         if (this.camera) {
             const options = { quality: 0.5, base64: true };
             const data = await this.camera.takePictureAsync(options);
-            this.props.updatePhoto(data.base64)
+            const base64 = `data:image/png;base64,${data.base64}`
+            this.props.updatePhoto(base64)
         }
     };
 }
@@ -55,7 +68,7 @@ const styles = StyleSheet.create({
         flex: 1,
         // height: '50%',
         flexDirection: 'column',
-        backgroundColor: 'black',
+        // backgroundColor: 'black',
     },
     preview: {
         flex: 1,
@@ -70,6 +83,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         alignSelf: 'center',
         margin: 20,
+    },
+    imageThumbnail: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        aspectRatio: 1.5,
+        // height: 100,
+        width: '100%',
     },
 });
 

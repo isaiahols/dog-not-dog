@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, SafeAreaView } from 'react-native'
 
 import Camera from "./../library/components/Camera";
 import Button from './../library/components/Button';
@@ -84,7 +84,7 @@ const Welcome = (props) => {
     ))
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {showCamera && <Camera updatePhoto={updatePhoto} toggleShowCamera={toggleShowCamera} />}
             <View style={styles.textContainer}>
                 <Text style={{ fontSize: 25 }}>
@@ -117,7 +117,7 @@ const Welcome = (props) => {
                 <Text style={{ fontSize: 20, marginBottom: 15 }}>Take or add a photo of a dog or not a dog</Text>
                 {buttons}
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        width: '100%',
     },
     btnContainer: {
         // height: 200,
