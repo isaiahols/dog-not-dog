@@ -46,7 +46,7 @@ const Capture = (props) => {
                 'Check that your server is running',
                 'there was a server error that is likely it timing out',
                 [
-                    { text: 'Continue with Text Data', onPress: () => nav.navigate('Results', { response: res, imageBase64: photo, endpoint, }) },
+                    { text: 'Continue with test data', onPress: () => nav.navigate('Results', { response: res, imageBase64: photo, endpoint, }) },
                     { text: 'Cancel', onPress: () => nav.navigate('Welcome') }
                 ]
             )
